@@ -1,2 +1,2 @@
 # LigoInvoiceTemplate
-A simple tempolate to generate ligo invoices
+A simple template to generate ligo invoices
