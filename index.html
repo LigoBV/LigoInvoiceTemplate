@@ -1,0 +1,171 @@
+<html>
+  <head>
+    <title>Ligo Invoice</title>
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      .layout {
+        font-family: 'Open Sans', sans-serif;
+        padding: 0px 100px;
+      }
+      .section {
+        display: flex;
+        justify-content: center;
+        margin: 100px 0;
+      }
+      .item {
+        flex: 1 50%;
+      }
+      .social {
+        display: flex;
+        justify-content: end;
+      }
+
+      .social .social-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 10px;
+      }
+
+      .bold {
+        font-weight: bolder;
+      }
+
+      .semibold {
+        font-weight: 600;
+      }
+
+      .bigger {
+        font-size: 1.25em;
+      }
+
+      .margin-top-md {
+        margin-top: 8px;
+      }
+
+      .right {
+        display: flex;
+        justify-content: flex-end;
+        padding-right: 20px;
+      }
+
+      table {
+        border-collapse: collapse;
+        border: 1px solid #eeeeee;
+        width: 100%;
+      }
+
+      th,
+      td {
+        text-align: left;
+        padding: 8px;
+      }
+
+      tr:nth-child(odd) {
+        background-color: #f2f2f2;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <div class="section">
+        <div class="item">
+          <img src="assets/LigoLogo.png" alt="" />
+        </div>
+        <div class="item social">
+          <div>
+            <div class="bold">Ligo B.V.</div>
+            <div class="social-item">
+              <i class="material-icons">place</i>
+              Strawinskylaan 4117, 1077 ZX, Amsterdam
+            </div>
+            <div class="social-item">
+              <i class="material-icons">phone</i>
+              020 - 3031043
+            </div>
+            <div class="social-item">
+              <i class="material-icons">email</i>
+              info@ligo.nl
+            </div>
+            <div class="social-item">
+              <i class="material-icons">language</i>
+              www.ligo.nl
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section">
+        <div class="item">
+          <div class="margin-top-md">
+            <span class="semibold">Factuurnummer:</span> {{ invoice.id }}
+          </div>
+          <div class="margin-top-md">
+            <span class="semibold">Factuurdatum:</span> {{ invoice.date }}
+          </div>
+          <div class="margin-top-md">
+            {%if invoice.payee.billing_info.vat_number %}
+          </div>
+          <div class="margin-top-md">
+            <span class="semibold">BTW-nummer:</span> {{
+            invoice.payee.billing_info.vat_number }}
+          </div>
+          <div class="margin-top-md">
+            {% endif %} {% ifinvoice.payee.billing_info.extra %}
+          </div>
+        </div>
+        <div class="item right">
+          <div>
+            {{ invoice.payee.billing_info.name }}
+            <div class="margin-top-md">
+              {{ invoice.payee.billing_info.address.stre }}
+            </div>
+            <div class="margin-top-md">
+              {{ invoice.payee.billing_info.address.hous }}
+            </div>
+            <div class="margin-top-md">
+              {{ invoice.payee.billing_info.address.zip }}
+            </div>
+            <div class="margin-top-md">
+              {{ invoice.payee.billing_info.address.city }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <table class="table">
+        {% for line in invoice.lines %}
+        <tr>
+          <th>{{ line.description }}</th>
+          <td>{{ line.price }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+          <td class="bold">Subtotaal</td>
+          <td>{{ invoice.price.subtotal }}</td>
+        </tr>
+        <tr>
+          <td class="bold">BTW (21%)</td>
+          <td>{{ invoice.price.vat }}</td>
+        </tr>
+        <tr>
+          <td class="bigger bold">Totaal</td>
+          <td>{{ invoice.price.total }}</td>
+        </tr>
+      </table>
+      <div class="section">
+        <div class="item">
+          <div><span class="semibold">IBAN:</span> NL09 INGB 0006 9822 09</div>
+          <div><span class="semibold">BIC: </span> INGBNL2A</div>
+          <div><span class="semibold">KvK: </span> 63699060</div>
+          <div><span class="semibold">BTW: </span> 855360197B01</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
